@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10130f">
+<title>BULL KING — Tap to Earn</title>
+<style>
+:root{--bg:#10130f;--panel:#1a2018;--panel2:#222b1e;--gold:#f4c44e;--gold2:#ffdf7b;--green:#9bd36a;--muted:#a9b09f;--line:#35402e}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#354329 0,#171d15 38%,#0d100c 78%);color:#f5f3e9;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+.app{width:min(100%,480px);margin:auto;padding:18px 16px 34px}
+header{display:flex;align-items:center;justify-content:space-between;margin:4px 0 18px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:43px;height:43px;border-radius:14px;background:linear-gradient(145deg,#ffdf7b,#bd8120);display:grid;place-items:center;font-size:25px;box-shadow:0 5px 22px #e8ad3540}
+h1{font-size:19px;letter-spacing:2px;margin:0;font-weight:950}
+.tag{font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:3px}
+.pill{border:1px solid var(--line);background:#ffffff09;border-radius:999px;padding:8px 11px;color:var(--gold2);font-size:11px;font-weight:800}
+.balance-card{background:linear-gradient(145deg,#293522,#192117);border:1px solid #58623b;border-radius:22px;padding:18px;text-align:center;box-shadow:0 12px 35px #0005}
+.label{font-size:10px;letter-spacing:2px;color:#c1c9b4;font-weight:800}
+.balance{font-size:clamp(34px,10vw,46px);font-weight:950;letter-spacing:-1.5px;color:var(--gold2);margin:5px 0 2px;overflow-wrap:anywhere}
+.coin-caption{font-size:11px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:#ffffff08;border:1px solid var(--line);border-radius:14px;padding:11px 8px;text-align:center}
+.stat strong{display:block;font-size:15px;color:#fff;margin-top:4px}
+.stat span{font-size:9px;color:var(--muted);letter-spacing:1px}
+.arena{position:relative;margin:15px 0 12px;padding:20px 10px 16px;text-align:center;border:1px solid #3a472e;border-radius:24px;background:radial-gradient(ellipse at 50% 45%,#3a492b 0,#20291c 55%,#171e15 100%);overflow:hidden}
+.arena:before,.arena:after{content:"";position:absolute;border:1px solid #d9b95b18;border-radius:50%;width:280px;height:280px;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+.arena:after{width:225px;height:225px}
+.level{position:relative;z-index:1;display:inline-block;padding:6px 12px;border-radius:999px;background:#0d130d99;border:1px solid #68764b;color:var(--gold2);font-size:10px;font-weight:900;letter-spacing:1.5px}
+.bull-wrap{position:relative;z-index:2;margin:12px auto 8px;width:220px;height:220px;display:grid;place-items:center}
+.bull{width:100%;height:100%;border:0;border-radius:50%;background:radial-gradient(circle at 38% 28%,#536b3a,#29391f 65%,#182015);box-shadow:inset 0 5px 18px #ffffff18,0 12px 30px #0008,0 0 0 7px #d4a94320;display:grid;place-items:center;transition:transform .08s;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.bull:active{transform:scale(.94)}
+.bull-emoji{font-size:126px;filter:drop-shadow(0 9px 5px #0008);line-height:1}
+.tap-hint{position:relative;z-index:1;font-size:11px;color:#d8dfcc;letter-spacing:1.5px;font-weight:800}
+.energy-head{display:flex;justify-content:space-between;font-size:11px;color:#d4dcc9;margin:15px 2px 7px}
+.energy-track{height:10px;border-radius:99px;background:#0c110b;overflow:hidden;border:1px solid #46513a}
+.energy-fill{height:100%;width:100%;background:linear-gradient(90deg,#8fc85b,#d4e875);border-radius:99px;transition:width .2s}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:21px 2px 10px}
+.section-title h2{font-size:13px;letter-spacing:1.5px;margin:0}
+.section-title small{color:var(--muted);font-size:10px}
+.upgrades{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.upgrade{background:linear-gradient(145deg,#242e20,#192018);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:left;color:#fff;min-width:0}
+.upgrade:active{transform:scale(.98)}
+.upgrade .ico{font-size:22px}
+.upgrade b{display:block;font-size:12px;margin:6px 0 3px}
+.upgrade small{display:block;color:var(--muted);font-size:10px;line-height:1.4;min-height:28px}
+.cost{display:block;color:var(--gold2);font-weight:900;font-size:11px;margin-top:9px}
+.bottom-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.action{border:1px solid #687345;background:#303d25;color:#e9f4d8;border-radius:14px;padding:13px 8px;font-weight:850;font-size:12px}
+.action.gold{background:linear-gradient(135deg,#f6d36a,#bb8427);border:0;color:#211a0c}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#f4c44e;color:#1b1b12;font-weight:900;padding:10px 16px;border-radius:999px;font-size:12px;transition:.22s;z-index:9;white-space:nowrap;box-shadow:0 6px 24px #0008}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:#74806a;font-size:9px;letter-spacing:1.3px;margin-top:22px}
+.float{position:absolute;z-index:4;color:#ffe58b;font-weight:1000;font-size:24px;pointer-events:none;text-shadow:0 2px 6px #000;animation:floatUp .7s ease-out forwards}
+@keyframes floatUp{to{transform:translateY(-85px) scale(1.25);opacity:0}}
+@media(max-width:360px){.bull-wrap{width:190px;height:190px}.bull-emoji{font-size:108px}.app{padding:14px 12px 28px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header>
+  <div class="brand"><div class="logo">🐂</div><div><h1>BULL KING</h1><div class="tag">TAP • EARN • DOMINATE</div></div></div>
+  <div class="pill" id="rankPill">👑 ROOKIE</div>
+</header>
+
+<section class="balance-card">
+  <div class="label">YOUR BULL COINS</div>
+  <div class="balance" id="coins">0</div>
+  <div class="coin-caption">🪙 BULL KING COINS</div>
+</section>
+
+<div class="stats">
+  <div class="stat"><span>💥 PER TAP</span><strong id="perTap">+1</strong></div>
+  <div class="stat"><span>⚡ ENERGY</span><strong id="energyText">1000/1000</strong></div>
+  <div class="stat"><span>🏆 LEVEL</span><strong id="level">1</strong></div>
+</div>
+
+<section class="arena">
+  <div class="level" id="levelName">LEVEL 1 • ROOKIE BULL</div>
+  <div class="bull-wrap">
+    <button class="bull" id="tapButton" aria-label="Tap the bull to earn coins"><span class="bull-emoji">🐂</span></button>
+  </div>
+  <div class="tap-hint">TAP THE BULL TO EARN COINS</div>
+  <div class="energy-head"><span>⚡ ENERGY</span><strong id="energyLabel">1000 / 1000</strong></div>
+  <div class="energy-track"><div class="energy-fill" id="energyFill"></div></div>
+</section>
+
+<div class="section-title"><h2>⚒️ KING'S UPGRADES</h2><small>POWER UP YOUR BULL</small></div>
+<section class="upgrades">
+  <button class="upgrade" data-upgrade="tap"><span class="ico">👊</span><b>Tap Power</b><small>Earn more coins with every tap.</small><span class="cost" id="tapCost">🪙 50</span></button>
+  <button class="upgrade" data-upgrade="energy"><span class="ico">⚡</span><b>Energy Tank</b><small>Increase your maximum energy.</small><span class="cost" id="energyCost">🪙 100</span></button>
+  <button class="upgrade" data-upgrade="recharge"><span class="ico">🔋</span><b>Fast Recharge</b><small>Recover energy faster over time.</small><span class="cost" id="rechargeCost">🪙 150</span></button>
+  <button class="upgrade" data-upgrade="multitap"><span class="ico">🔥</span><b>Multi Tap</b><small>Boost the coins earned per tap.</small><span class="cost" id="multiCost">🪙 250</span></button>
+</section>
+
+<div class="bottom-actions">
+  <button class="action gold" id="dailyBtn">🎁 DAILY REWARD</button>
+  <button class="action" id="bonusBtn">👑 KING BONUS</button>
+</div>
+<footer>YOUR PROGRESS SAVES AUTOMATICALLY ON THIS DEVICE</footer>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const SAVE_KEY = "bullKingSave_v1";
+  const defaults = {
+    coins: 0, energy: 1000, maxEnergy: 1000, tapPower: 1,
+    recharge: 2, multi: 1, tapLevel: 0, energyLevel: 0,
+    rechargeLevel: 0, multiLevel: 0, lastDaily: 0, lastTick: Date.now()
+  };
+  let state = {...defaults};
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
+    if (saved && typeof saved === "object") state = {...defaults, ...saved};
+  } catch (_) {}
+  state.energy = Math.min(state.maxEnergy, Math.max(0, Number(state.energy) || 0));
+  let toastTimer;
+
+  const $ = id => document.getElementById(id);
+  const fmt = n => Math.floor(n).toLocaleString("en-IN");
+  const costs = () => ({
+    tap: Math.floor(50 * Math.pow(1.65, state.tapLevel)),
+    energy: Math.floor(100 * Math.pow(1.7, state.energyLevel)),
+    recharge: Math.floor(150 * Math.pow(1.8, state.rechargeLevel)),
+    multitap: Math.floor(250 * Math.pow(1.85, state.multiLevel))
+  });
+  const rankFor = coins => {
+    if (coins >= 1000000) return ["🐂 LEGEND KING", "LEGEND BULL"];
+    if (coins >= 100000) return ["💎 DIAMOND KING", "DIAMOND BULL"];
+    if (coins >= 25000) return ["🥇 GOLD KING", "GOLD BULL"];
+    if (coins >= 5000) return ["🔥 PRO KING", "PRO BULL"];
+    if (coins >= 1000) return ["⚔️ WARRIOR", "WARRIOR BULL"];
+    return ["👑 ROOKIE", "ROOKIE BULL"];
+  };
+  function save() {
+    state.lastTick = Date.now();
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (_) {}
+  }
+  function notify(message) {
+    const el = $("toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 1700);
+  }
+  function render() {
+    const c = costs();
+    const [rank, name] = rankFor(state.coins);
+    $("coins").textContent = fmt(state.coins);
+    $("perTap").textContent = "+" + fmt(state.tapPower * state.multi);
+    $("energyText").textContent = `${fmt(state.energy)}/${fmt(state.maxEnergy)}`;
+    $("energyLabel").textContent = `${fmt(state.energy)} / ${fmt(state.maxEnergy)}`;
+    $("energyFill").style.width = `${state.energy / state.maxEnergy * 100}%`;
+    $("level").textContent = 1 + state.tapLevel + state.energyLevel + state.rechargeLevel + state.multiLevel;
+    $("rankPill").textContent = rank;
+    $("levelName").textContent = `LEVEL ${$("level").textContent} • ${name}`;
+    $("tapCost").textContent = "🪙 " + fmt(c.tap);
+    $("energyCost").textContent = "🪙 " + fmt(c.energy);
+    $("rechargeCost").textContent = "🪙 " + fmt(c.recharge);
+    $("multiCost").textContent = "🪙 " + fmt(c.multitap);
+    $("dailyBtn").textContent = canDaily() ? "🎁 DAILY REWARD" : "✅ CLAIMED TODAY";
+  }
+  function canDaily() {
+    const now = new Date();
+    const last = state.lastDaily ? new Date(state.lastDaily) : null;
+    return !last || now.toDateString() !== last.toDateString();
+  }
+  function tap(event) {
+    if (state.energy < 1) { notify("⚡ Energy khatam! Recharge hone do."); return; }
+    const earned = state.tapPower * state.multi;
+    state.coins += earned;
+    state.energy = Math.max(0, state.energy - 1);
+    const rect = $("tapButton").getBoundingClientRect();
+    const x = event && event.clientX ? event.clientX : rect.left + rect.width / 2;
+    const y = event && event.clientY ? event.clientY : rect.top + rect.height / 2;
+    const floater = document.createElement("span");
+    floater.className = "float";
+    floater.textContent = "+" + earned;
+    floater.style.left = (x - 18) + "px";
+    floater.style.top = (y - 8) + "px";
+    document.body.appendChild(floater);
+    setTimeout(() => floater.remove(), 750);
+    render();
+    save();
+  }
+  function buy(type) {
+    const c = costs();
+    const price = c[type];
+    if (state.coins < price) { notify("🪙 Not enough coins! Keep tapping."); return; }
+    state.coins -= price;
+    if (type === "tap") { state.tapLevel++; state.tapPower++; }
+    if (type === "energy") {
+      state.energyLevel++;
+      state.maxEnergy += 250;
+      state.energy = Math.min(state.maxEnergy, state.energy + 250);
+    }
+    if (type === "recharge") { state.rechargeLevel++; state.recharge += 1; }
+    if (type === "multitap") { state.multiLevel++; state.multi++; }
+    render(); save(); notify("Upgrade unlocked! 👑");
+  }
+  $("tapButton").addEventListener("pointerdown", tap);
+  document.querySelectorAll("[data-upgrade]").forEach(btn =>
+    btn.addEventListener("click", () => buy(btn.dataset.upgrade))
+  );
+  $("dailyBtn").addEventListener("click", () => {
+    if (!canDaily()) { notify("Daily reward already claimed. Come back tomorrow!"); return; }
+    const reward = 500 + Math.floor(state.coins * 0.05);
+    state.coins += reward;
+    state.lastDaily = Date.now();
+    render(); save(); notify("🎁 Daily reward: +" + fmt(reward) + " coins!");
+  });
+  $("bonusBtn").addEventListener("click", () => {
+    const reward = 100 + state.tapLevel * 25;
+    state.coins += reward;
+    render(); save(); notify("👑 King bonus: +" + fmt(reward) + " coins!");
+  });
+
+  // Restore a limited amount of energy earned while the game was closed.
+  const awaySeconds = Math.max(0, Math.min(8 * 60 * 60, (Date.now() - (state.lastTick || Date.now())) / 1000));
+  state.energy = Math.min(state.maxEnergy, state.energy + awaySeconds * state.recharge);
+  render(); save();
+
+  setInterval(() => {
+    const before = state.energy;
+    state.energy = Math.min(state.maxEnergy, state.energy + state.recharge);
+    if (state.energy !== before) render();
+    save();
+  }, 1000);
+
+  // Save when the tab is closed or sent to the background.
+  document.addEventListener("visibilitychange", () => { if (document.hidden) save(); });
+  window.addEventListener("beforeunload", save);
+})();
+</script>
+</body>
+</html>
