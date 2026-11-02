@@ -4,13 +4,11 @@ export default async function handler(req, res) {
   }
 
   const token = process.env.BOT_TOKEN;
-  const update = req.body;
+  const message = req.body?.message;
 
   if (!token) {
     return res.status(500).send("Bot token missing");
   }
-
-  const message = update.message;
 
   if (message?.text === "/start") {
     const chatId = message.chat.id;
@@ -20,16 +18,14 @@ export default async function handler(req, res) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: "🐂 WELCOME TO BULL KING!\n\n🔥 Game mein aapka swagat hai!\n\n💰 Coins kamao\n⚡ Energy badhao\n👑 King bano!\n\nReady ho? Play Game dabao!",
+        text: "🐂 WELCOME TO BULL KING!\n\n🔥 Game mein aapka swagat hai!\n\n💰 Coins kamao\n⚡ Energy badhao\n👑 King bano!\n\n👇 Hamare Social Media ko follow karo:",
         reply_markup: {
-          inline_keyboard: [[
-            {
-              text: "🎮 PLAY GAME",
-              web_app: {
-                url: "https://bull-king.vercel.app/"
-              }
-            }
-          ]]
+          inline_keyboard: [
+            [{ text: "📸 Instagram", url: "https://www.instagram.com/khati_miti_yade_/" }],
+            [{ text: "▶️ YouTube", url: "https://www.youtube.com/@RohitParihar1759" }],
+            [{ text: "📘 Facebook", url: "https://www.facebook.com/share/14zK9ddGNEP/" }],
+            [{ text: "🎮 PLAY GAME", web_app: { url: "https://bull-king.vercel.app/" } }]
+          ]
         }
       })
     });
