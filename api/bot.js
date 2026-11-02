@@ -21,11 +21,12 @@ export default async function handler(req, res) {
         text: "🐂 WELCOME TO BULL KING!\n\n🔥 Game mein aapka swagat hai!\n\n💰 Coins kamao\n⚡ Energy badhao\n👑 King bano!\n\n👇 Hamare Social Media ko follow karo:",
         reply_markup: {
           inline_keyboard: [
-            [{ text: "📸 Instagram", url: "https://www.instagram.com/khati_miti_yade_/" }],
-            [{ text: "▶️ YouTube", url: "https://www.youtube.com/@RohitParihar1759" }],
-            [{ text: "📘 Facebook", url: "https://www.facebook.com/share/14zK9ddGNEP/" }],
-            [{ text: "🎮 PLAY GAME", web_app: { url: "https://bull-king.vercel.app/" } }]
-          ]
+  [{ text: "📸 Instagram", url: "https://www.instagram.com/khati_miti_yade_/" }],
+  [{ text: "▶️ YouTube", url: "https://www.youtube.com/@RohitParihar1759" }],
+  [{ text: "📘 Facebook", url: "https://www.facebook.com/share/14zK9ddGNEP/" }],
+  [{ text: "✈️ Telegram", url: "https://t.me/earnwithrohit94" }],
+  [{ text: "🎮 PLAY GAME", web_app: { url: "https://bull-king.vercel.app/" } }]
+]
         }
       })
     });
