@@ -235,5 +235,43 @@ footer{text-align:center;color:#74806a;font-size:9px;letter-spacing:1.3px;margin
   window.addEventListener("beforeunload", save);
 })();
 </script>
+<section id="tasks" style="padding:20px;color:white;background:#10130f;border-radius:15px;margin:15px">
+<h2>👑 BULL KING TASKS</h2>
+<div id="taskList">Loading Tasks...</div>
+</section>
+
+<script>
+const SUPABASE_URL = "https://iztcjgivlnczgbmjqjuj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_61o0SnZs75VoHknJ9Cm6ZQ_0hClFmIh";
+
+async function loadTasks() {
+  const box = document.getElementById("taskList");
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/tasks?select=id,title,reward,task_url&active=eq.true&order=id.asc",
+      {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+    if (!response.ok) throw new Error("Tasks load failed");
+    const tasks = await response.json();
+
+    box.innerHTML = tasks.map(task => `
+      <div style="background:#222;padding:14px;margin:10px 0;border-radius:12px">
+        <b>${task.title}</b>
+        <p>🎁 Reward: ${Number(task.reward).toLocaleString("en-IN")} Tokens</p>
+        <a href="${task.task_url}" target="_blank"
+           style="color:#ffd700">OPEN TASK ↗</a>
+      </div>
+    `).join("") || "No tasks found";
+  } catch (error) {
+    box.textContent = "Tasks load nahi hue. URL aur key check karo.";
+  }
+}
+loadTasks();
+</script>
 </body>
 </html>
